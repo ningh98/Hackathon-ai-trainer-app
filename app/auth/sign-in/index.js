@@ -1,5 +1,6 @@
-import { View, Text, TextInput, StyleSheet,TouchableOpacity } from 'react-native'
-import React, { useEffect } from 'react'
+import { View, Text, TextInput, StyleSheet,TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { useAuthActions } from "@convex-dev/auth/react";
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Colors } from '@/constants/Colors'
 import { useRouter } from 'expo-router'
@@ -8,6 +9,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 export default function SignIn() {
   const navigation = useNavigation()
   const router = useRouter()
+  const { signIn } = useAuthActions();
+  const [step, setStep] = useState("signIn");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -15,7 +20,20 @@ export default function SignIn() {
     })
   },[])
 
+  const handleSignIn = async () => {
+    try {
+      await signIn("password", { email, password, flow: step });
+      // Navigate to the main app or dashboard after successful sign-in
+      router.replace('/myworkout');
+    } catch (error) {
+      // Handle error (e.g., show a message to the user)
+      console.error("SignIn Error:", error);
+    }
+  };
+
   return (
+
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={{
       padding:25,
       backgroundColor: Colors.WHITE,
@@ -51,7 +69,12 @@ export default function SignIn() {
         <Text style={{fontFamily:'outfit'}}>Email</Text>
         <TextInput 
         style={styles.input}
-        placeholder='Enter Email'></TextInput>
+        placeholder='Enter Email'
+        onChangeText={setEmail}
+        value={email}
+        inputMode='email'
+        autoCapitalize='none'
+        />
       </View>
       {/* Password */}
       <View style={{marginTop: 20}}>
@@ -59,10 +82,14 @@ export default function SignIn() {
         <TextInput 
         secureTextEntry={true}
         style={styles.input}
-        placeholder='Enter password'></TextInput>
+        placeholder='Enter password'
+        onChangeText={setPassword}
+        value={password}
+        />
       </View>
       {/* Sign in Button */}
       <TouchableOpacity
+        onPress={handleSignIn}
         
       style={{
         padding:20,
@@ -91,6 +118,7 @@ export default function SignIn() {
         }}>Create Account</Text>
       </TouchableOpacity>
     </View>
+    </TouchableWithoutFeedback>
   )
 }
 
