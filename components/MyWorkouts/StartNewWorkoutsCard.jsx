@@ -2,8 +2,13 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Colors } from '@/constants/Colors'
+import { useRouter } from 'expo-router'
+
 
 export default function StartNewWorkoutsCard() {
+
+  const router = useRouter()
+
   return (
     <View
     style={{
@@ -32,6 +37,7 @@ export default function StartNewWorkoutsCard() {
       >Looks like its time to make a new workout plan! Get Started below</Text>
 
       <TouchableOpacity
+      onPress={()=>router.push('/create-workout/start-create-workout')}
       style={{
         padding:15,
         backgroundColor:Colors.PRIMARY,
@@ -47,6 +53,7 @@ export default function StartNewWorkoutsCard() {
         }}>
           Create a new workout plan
         </Text>
+        
       </TouchableOpacity>
 
     </View>
