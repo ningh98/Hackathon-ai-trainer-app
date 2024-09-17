@@ -5,8 +5,8 @@ import Colors from '@/constants/Colors'
 import { useRouter } from 'expo-router'
 import CreateWorkoutContext from '../../context/CreateWorkoutContext'
 
-export default function InfoGoal() {
-    const [gym, setGym] = useState('')
+export default function InfoFor() {
+    const [forUser, setForUser] = useState('')
     const router = useRouter()
     const navigation=useNavigation()
     const {infoData, setInfoData}=useContext(CreateWorkoutContext)
@@ -16,15 +16,14 @@ export default function InfoGoal() {
         navigation.setOptions({
             headerShown:true,
             headerTransparent:true,
-            headerTitle: 'Gym',
+            headerTitle: 'Whoes plan',
             headerBackTitle: '',
             headerBackTitleVisible: false,
             headerTintColor: Colors.PRIMARY
         })
     },[])
 
-    const isButtonDisabled = gym.trim() === ''; // Disable button if goal is empty or only whitespace
-
+    const isButtonDisabled = forUser.trim() === ''; // Disable button if forUser is empty or only whitespace
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View
@@ -53,23 +52,20 @@ export default function InfoGoal() {
                 }}
                 multiline={true} // Allows multiple lines of text
                 numberOfLines={6} // Defines how many lines are visible before scrolling
-                placeholder="What's your gym looks like... It's ok if you don't any equipment."
+                placeholder="What does this plan belong to..."
                 placeholderTextColor={Colors.GRAY}
-                value={gym}
-                onChangeText={text => setGym(text)}
-                
+                value={forUser}
+                onChangeText={text => setForUser(text)}
             />
             <TouchableOpacity
-      onPress={()=>
-      {
-        setInfoData({...infoData, gym})
-        router.push('/create-workout/info-for')
+      onPress={()=>{
+        setInfoData({...infoData, forUser})
+        router.push('/create-workout/info-freq')
       }
-        }
+      }
       style={{
         bottom:-100,
         padding:15,
-        backgroundColor:Colors.PRIMARY,
         borderRadius:15,
         paddingHorizontal:30,
         width: 150,
@@ -77,7 +73,7 @@ export default function InfoGoal() {
         backgroundColor: isButtonDisabled ? Colors.GRAY : Colors.PRIMARY, // Change color based on disabled state
         opacity: isButtonDisabled ? 0.6 : 1, // Adjust opacity when disabled
       }}
-      disabled={isButtonDisabled} // Disable the button if goal is empty
+      disabled={isButtonDisabled} // Disable the button if forUser is empty
       >
         <Text
         style={{

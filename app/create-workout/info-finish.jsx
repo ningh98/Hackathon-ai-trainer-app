@@ -17,8 +17,8 @@ export default function StartCreateWorkout() {
     const submitUserWorkoutInfo = useMutation(api.userWorkoutInfo.UserWorkoutInfo);
     const handleSave = async () => {
         try {
-          await submitUserWorkoutInfo(infoData);
-          console.log('User info saved successfully');
+          // await submitUserWorkoutInfo(infoData);
+          // console.log('User info saved successfully');
           // Here you could trigger the AI process to create the workout plan
           router.replace('/create-workout/generate-workout')
         } catch (error) {

@@ -1,6 +1,6 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { auth } from "./auth";
+
 
 // Define the mutation for saving user workout information
 export const UserWorkoutInfo = mutation({
@@ -14,22 +14,10 @@ export const UserWorkoutInfo = mutation({
       height: v.string(),
       weight: v.string(),
       plan: v.optional(v.string()),
+      forUser: v.string()
     },
     // Define the handler function for the mutation
     handler: async (ctx, userInfo) => {
-        // Step 1: Get the authenticated user's ID
-    // const userId = await auth.getUserId(ctx);
-
-    // // Step 2: Handle unauthenticated calls
-    // if (!userId) {
-    //   throw new Error("User is not authenticated");
-    // }
-
-    
-        
-    
-    
-    
       
       await ctx.db.insert("userInfo", {
         // userId,
@@ -41,7 +29,16 @@ export const UserWorkoutInfo = mutation({
         height: userInfo.height,
         weight: userInfo.weight,
         plan: userInfo.plan,
+        forUser: userInfo.forUser
 
     });
+    },
+  });
+
+  export const getAllUserWorkouts = query({
+    args: {},
+    handler: async (ctx) => {
+      const userWorkouts = await ctx.db.query("userInfo").collect();
+      return userWorkouts;
     },
   });

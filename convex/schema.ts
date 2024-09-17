@@ -20,7 +20,8 @@ const userInfoTable = defineTable({
     gym: v.string(),
     height: v.string(),
     weight: v.string(),
-    plan: v.optional(v.string())
+    plan: v.optional(v.string()),
+    forUser: v.string()
 
 })
 
